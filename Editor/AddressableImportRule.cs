@@ -43,6 +43,7 @@ public class AddressableImportRule
 #if ODIN_INSPECTOR
 [Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
 [Sirenix.OdinInspector.HideLabel, Sirenix.OdinInspector.SuffixLabel("PATH", true)]
+//
 #endif
     
     
