@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine.AddressableAssets;
@@ -38,18 +39,36 @@ public enum GroupTemplateApplicationMode
 [System.Serializable]
 public class AddressableImportRule
 {
+    private string RuleInfo => groupName == string.Empty ? "NO GROUP" : groupName; 
+#if ODIN_INSPECTOR
+[Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+[Sirenix.OdinInspector.HideLabel, Sirenix.OdinInspector.SuffixLabel("PATH", true)]
+#endif
+    
+    
     /// <summary>
     /// Path pattern.
     /// </summary>
     [Tooltip("The assets in this path will be processed.")]
     public string path = string.Empty;
 
+#if ODIN_INSPECTOR
+//[Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+[Sirenix.OdinInspector.HideLabel]
+[Sirenix.OdinInspector.HorizontalGroup("$RuleInfo/GroupSettings", .2f)]
+#endif
+    
     /// <summary>
     /// Method used to parse the Path.
     /// </summary>
     [Tooltip("The path parsing method.")]
     public AddressableImportRuleMatchType matchType;
 
+#if ODIN_INSPECTOR
+// [Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+[Sirenix.OdinInspector.HorizontalGroup("$RuleInfo/GroupSettings", .8f)]
+[Sirenix.OdinInspector.HideLabel, Sirenix.OdinInspector.SuffixLabel("GROUP", true)]
+#endif
     /// <summary>
     /// The group the asset will be added.
     /// </summary>
@@ -65,36 +84,68 @@ public class AddressableImportRule
         }
     }
 
+#if ODIN_INSPECTOR
+[Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+#endif
     /// <summary>
     /// Defines if labels will be added or replaced.
     /// </summary>
     public LabelWriteMode LabelMode;
 
+#if ODIN_INSPECTOR
+[Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+#endif
     /// <summary>
     /// Label reference list.
     /// </summary>
     [Tooltip("The list of labels to be added to the Addressable Asset")]
     public List<AssetLabelReference> labelRefs;
 
+#if ODIN_INSPECTOR
+// [Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+[Sirenix.OdinInspector.HorizontalGroup("$RuleInfo/GroupCreationSettings", .6f)]
+[Sirenix.OdinInspector.HideLabel]
+// [Sirenix.OdinInspector.SuffixLabel("TEMPLATE")]
+#endif
     /// <summary>
     /// Group template to use. Default Group settings will be used if empty.
     /// </summary>
     [Tooltip("Group template that will be applied to the Addressable Group. Leave none to use the Default Group's settings.")]
     public AddressableAssetGroupTemplate groupTemplate = null;
 
+#if ODIN_INSPECTOR
+// [Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+[Sirenix.OdinInspector.HorizontalGroup("$RuleInfo/GroupCreationSettings", .4f)]
+[Sirenix.OdinInspector.HideLabel]
+#endif
     /// <summary>
     /// Controls wether group template will be applied only on group creation, or also to already created groups.
     /// </summary>
     [Tooltip("Defines if the group template will only be applied to new groups, or will also overwrite existing groups settings.")]
     public GroupTemplateApplicationMode groupTemplateApplicationMode = GroupTemplateApplicationMode.ApplyOnGroupCreationOnly;
 
+#if ODIN_INSPECTOR
+// [Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+[Sirenix.OdinInspector.HorizontalGroup("$RuleInfo/AddressSettings", .2f)]
+// [Sirenix.OdinInspector.HideLabel]
+[Sirenix.OdinInspector.LabelText("SIMPLIFY"), Sirenix.OdinInspector.LabelWidth(80f)]
+
+#endif
     /// <summary>
     /// Simplify address.
     /// </summary>
     [Tooltip("Simplify address to filename without extension.")]
-    [Label("Address Simplified")]
+    // [Label("Address Simplified")]
     public bool simplified;
 
+#if ODIN_INSPECTOR
+// [Sirenix.OdinInspector.FoldoutGroup("$RuleInfo")]
+[Sirenix.OdinInspector.HorizontalGroup("$RuleInfo/AddressSettings", .8f)]
+[Sirenix.OdinInspector.HideLabel]
+[Sirenix.OdinInspector.SuffixLabel("REPLACE")]
+[Sirenix.OdinInspector.EnableIf(@"@simplified == false")]
+#endif
+    
     /// <summary>
     /// Replacement string for the asset address. This is only useful with regex capture groups.
     /// </summary>

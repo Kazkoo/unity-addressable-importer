@@ -18,6 +18,7 @@
         //private List<AddressableImportRule>                     _filteredRules;
         private bool _sourceChanged = false;
         public bool allowRemove;
+        //
 
         [SerializeField]
         [HideLabel]
