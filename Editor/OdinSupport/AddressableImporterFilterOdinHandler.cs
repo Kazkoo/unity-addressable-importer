@@ -17,6 +17,7 @@
         private List<Func<AddressableImportRule, string, bool>> _filters;
         //private List<AddressableImportRule>                     _filteredRules;
         private bool _sourceChanged = false;
+        public bool allowRemove;
 
         [SerializeField]
         [HideLabel]
@@ -139,8 +140,10 @@
 
         private void EndOfListItemGui(int item)
         {
+            if(allowRemove == false) return;
             if (GUILayout.Button("remove")) {
                 CustomRemoveIndexFunction(item);
+                allowRemove = false;
             }
         }
 
